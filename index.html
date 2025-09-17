@@ -1,60 +1,533 @@
----
-layout: default
-styles: [article-list.css]
----
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>楠沐优选 - 专业选品服务</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#3B82F6',
+                        secondary: '#F3F4F6',
+                        accent: '#10B981',
+                        dark: '#1F2937',
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', 'sans-serif'],
+                    },
+                }
+            }
+        }
+    </script>
+    <style type="text/tailwindcss">
+        @layer utilities {
+            .content-auto {
+                content-visibility: auto;
+            }
+            .text-shadow {
+                text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            }
+            .transition-custom {
+                transition: all 0.3s ease;
+            }
+        }
+    </style>
+</head>
+<body class="font-sans text-dark bg-white">
+    <!-- 导航栏 -->
+    <header id="navbar" class="fixed w-full z-50 transition-all duration-300 bg-white/95 shadow-sm">
+        <div class="container mx-auto px-4 py-4 flex justify-between items-center">
+            <a href="#" class="flex items-center space-x-2">
+                <span class="text-primary text-2xl"><i class="fa fa-diamond"></i></span>
+                <span class="text-xl font-bold">楠沐优选</span>
+            </a>
+            
+            <!-- 桌面导航 -->
+            <nav class="hidden md:flex space-x-8">
+                <a href="#home" class="font-medium hover:text-primary transition-custom">首页</a>
+                <a href="#services" class="font-medium hover:text-primary transition-custom">服务介绍</a>
+                <a href="#process" class="font-medium hover:text-primary transition-custom">选品流程</a>
+                <a href="#advantages" class="font-medium hover:text-primary transition-custom">我们的优势</a>
+                <a href="#contact" class="font-medium hover:text-primary transition-custom">联系我们</a>
+            </nav>
+            
+            <!-- 联系按钮 -->
+            <a href="#contact" class="hidden md:block bg-primary hover:bg-primary/90 text-white px-5 py-2 rounded-full transition-custom">
+                咨询合作
+            </a>
+            
+            <!-- 移动端菜单按钮 -->
+            <button id="menu-toggle" class="md:hidden text-dark text-xl">
+                <i class="fa fa-bars"></i>
+            </button>
+        </div>
+        
+        <!-- 移动端导航菜单 -->
+        <div id="mobile-menu" class="md:hidden hidden bg-white border-t">
+            <div class="container mx-auto px-4 py-3 flex flex-col space-y-4">
+                <a href="#home" class="font-medium py-2 hover:text-primary transition-custom">首页</a>
+                <a href="#services" class="font-medium py-2 hover:text-primary transition-custom">服务介绍</a>
+                <a href="#process" class="font-medium py-2 hover:text-primary transition-custom">选品流程</a>
+                <a href="#advantages" class="font-medium py-2 hover:text-primary transition-custom">我们的优势</a>
+                <a href="#contact" class="font-medium py-2 hover:text-primary transition-custom">联系我们</a>
+                <a href="#contact" class="bg-primary hover:bg-primary/90 text-white px-5 py-2 rounded-full text-center transition-custom">
+                    咨询合作
+                </a>
+            </div>
+        </div>
+    </header>
 
-<div class="row index">
-  <div class="col-sm-10 col-sm-offset-1 col-lg-9 col-lg-offset-1_5">
-      <div>
-        <section class="category-slice" post-cate="All">
-          {% for post in paginator.posts %}
-            <article>
-                <header>
-                    <a href="{{ site.baseurl | prepend: site.url  }}/archive/#{{ post.date | date: '%Y-%m-%d' }}"><span class="octicon octicon-calendar"></span>&nbsp;<span>{{ post.date | date: "%Y-%m-%d" }}</span></a>
-                </header>
-                <div class="module">
-                  <a class="title" href="{{ post.url | prepend: site.baseurl | prepend: site.url }}">
-                      {{ post.title }}
-                  </a>
-                  <p>{% if post.excerpt.size > 32 %}{{ post.excerpt }}{% else %}{{ post.content | strip_html | strip_newlines | truncate: 160 }}{% endif %}</p>
-                  <a class="readmore" href="{{ post.url | prepend: site.baseurl | prepend: site.url }}">Read More</a>
-                  <footer>
-                      {% for tag in post.tags %}
-                      <a class="word-keep" href="{{ site.baseurl | prepend: site.url }}/tags/#{{ tag }}"><span class="octicon octicon-tag"></span>&nbsp;{{ tag }}</a>
-                      {% endfor %}
-                      <span class="word-keep pull-right">
-                          <a href="{{ post.url | prepend: site.baseurl | prepend: site.url }}#post-comment"><span class="octicon octicon-comment"></span>&nbsp;Comment</a>
-                          <a href="{{ post.url | prepend: site.baseurl | prepend: site.url }}#post-share"><span class="octicon octicon-file-symlink-file"></span>&nbsp;Share</a>
-                      </span>
-                  </footer>
+    <!-- 英雄区域 -->
+    <section id="home" class="pt-24 min-h-screen flex items-center relative overflow-hidden">
+        <div class="absolute inset-0 z-0">
+            <img src="https://picsum.photos/id/1060/1920/1080" alt="优质商品背景" class="w-full h-full object-cover opacity-10">
+        </div>
+        <div class="container mx-auto px-4 py-20 relative z-10">
+            <div class="grid md:grid-cols-2 gap-12 items-center">
+                <div class="space-y-6 max-w-lg">
+                    <h1 class="text-[clamp(2.5rem,5vw,4rem)] font-bold leading-tight text-shadow">
+                        精选好物，<br>
+                        <span class="text-primary">品质之选</span>
+                    </h1>
+                    <p class="text-lg text-gray-600">
+                        楠沐优选专注于为您筛选高品质、高性价比的各类商品，让每一次选择都物有所值，为生活增添品质与便捷。
+                    </p>
+                    <div class="flex flex-wrap gap-4">
+                        <a href="#services" class="bg-primary hover:bg-primary/90 text-white px-8 py-3 rounded-full font-medium transition-custom shadow-lg hover:shadow-xl">
+                            了解服务
+                        </a>
+                        <a href="#contact" class="bg-white hover:bg-gray-100 text-dark border border-gray-300 px-8 py-3 rounded-full font-medium transition-custom shadow-md hover:shadow-lg">
+                            立即联系
+                        </a>
+                    </div>
                 </div>
-            </article>
-          {% endfor %}
-        </section>
+                <div class="relative">
+                    <div class="absolute -top-10 -left-10 w-40 h-40 bg-primary/10 rounded-full filter blur-3xl"></div>
+                    <div class="absolute -bottom-10 -right-10 w-40 h-40 bg-accent/10 rounded-full filter blur-3xl"></div>
+                    <img src="https://picsum.photos/id/96/600/800" alt="精选商品展示" class="w-full h-auto rounded-2xl shadow-2xl relative z-10 transform hover:scale-[1.02] transition-custom">
+                </div>
+            </div>
+        </div>
+        <div class="absolute bottom-8 left-1/2 transform -translate-x-1/2 text-center">
+            <a href="#services" class="text-gray-500 hover:text-primary transition-custom">
+                <span class="block text-sm mb-2">了解更多</span>
+                <i class="fa fa-chevron-down animate-bounce"></i>
+            </a>
+        </div>
+    </section>
 
-          <div class="pad-mid"></div>
+    <!-- 服务介绍 -->
+    <section id="services" class="py-20 bg-secondary">
+        <div class="container mx-auto px-4">
+            <div class="text-center max-w-3xl mx-auto mb-16">
+                <h2 class="text-[clamp(1.8rem,3vw,2.5rem)] font-bold mb-4">我们的服务</h2>
+                <p class="text-gray-600 text-lg">楠沐优选致力于为您提供专业的选品服务，从源头把控品质，为您精选各类优质商品</p>
+            </div>
+            
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="bg-white rounded-xl p-8 shadow-md hover:shadow-lg transition-custom transform hover:-translate-y-1">
+                    <div class="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mb-6">
+                        <i class="fa fa-search text-primary text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3">专业选品</h3>
+                    <p class="text-gray-600">
+                        我们拥有专业的选品团队，深入市场调研，从众多产品中筛选出品质卓越、性价比高的优质商品。
+                    </p>
+                </div>
+                
+                <div class="bg-white rounded-xl p-8 shadow-md hover:shadow-lg transition-custom transform hover:-translate-y-1">
+                    <div class="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mb-6">
+                        <i class="fa fa-shopping-basket text-primary text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3">品类丰富</h3>
+                    <p class="text-gray-600">
+                        涵盖生活百货、食品零食、美妆个护、家居用品等多个品类，满足您多样化的需求。
+                    </p>
+                </div>
+                
+                <div class="bg-white rounded-xl p-8 shadow-md hover:shadow-lg transition-custom transform hover:-translate-y-1">
+                    <div class="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mb-6">
+                        <i class="fa fa-handshake-o text-primary text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3">定制服务</h3>
+                    <p class="text-gray-600">
+                        提供个性化选品服务，根据您的具体需求和预算，量身定制专属的选品方案。
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
 
-          <nav class="text-center">
-              <ul class="pagination">
-                {% if paginator.total_pages > 1 %}
-                  {% if paginator.previous_page %}
-                        <li><a href="{{ paginator.previous_page_path | prepend: site.baseurl | prepend: site.url }}" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a></li>
-                  {% endif %}
-                  {% for page in (1..paginator.total_pages) %}
-                      {% if page == paginator.page %}
-                        <li class="active"><span>{{ page }}</span></li>
-                      {% elsif page == 1 %}
-                        <li><a href="{{ '/' | prepend: site.baseurl | prepend: site.url  }}">{{ page }}</a></li>
-                      {% else %}
-                        <li><a href="{{ page |  prepend: '/' | prepend: site.baseurl | prepend: site.url }}">{{ page }}</a></li>
-                      {% endif %}
-                  {% endfor %}
-                  {% if !paginator.next_page %}
-                        <li><a href="{{ paginator.next_page_path | prepend: site.baseurl | prepend: site.url }}" aria-label="Next"><span aria-hidden="true">&raquo;</span></a></li>
-                  {% endif %}
-                {% endif %}
-              </ul>
-          </nav>
-      </div>
-  </div>
-</div>
+    <!-- 选品流程 -->
+    <section id="process" class="py-20">
+        <div class="container mx-auto px-4">
+            <div class="text-center max-w-3xl mx-auto mb-16">
+                <h2 class="text-[clamp(1.8rem,3vw,2.5rem)] font-bold mb-4">选品流程</h2>
+                <p class="text-gray-600 text-lg">我们遵循严格的选品标准和流程，确保每一件推荐的商品都经得起品质检验</p>
+            </div>
+            
+            <div class="relative">
+                <!-- 连接线 -->
+                <div class="hidden md:block absolute left-1/2 top-0 bottom-0 w-1 bg-gray-200 transform -translate-x-1/2"></div>
+                
+                <div class="space-y-12 md:space-y-0 relative">
+                    <!-- 步骤1 -->
+                    <div class="md:grid md:grid-cols-2 md:gap-8 md:items-center">
+                        <div class="md:text-right mb-6 md:mb-0 md:pr-12">
+                            <h3 class="text-xl font-bold mb-2">市场调研</h3>
+                            <p class="text-gray-600">
+                                深入了解市场趋势和消费者需求，收集各类商品信息，建立初步选品池。
+                            </p>
+                        </div>
+                        <div class="relative">
+                            <div class="hidden md:block absolute left-0 top-1/2 w-12 h-12 bg-primary text-white rounded-full flex items-center justify-center transform -translate-x-1/2 -translate-y-1/2 z-10">
+                                <span class="font-bold">1</span>
+                            </div>
+                            <div class="md:ml-12 bg-secondary rounded-xl p-6 shadow-sm">
+                                <img src="https://picsum.photos/id/20/600/400" alt="市场调研" class="w-full h-48 object-cover rounded-lg mb-4">
+                                <div class="md:hidden">
+                                    <h3 class="text-xl font-bold mb-2">市场调研</h3>
+                                    <p class="text-gray-600">
+                                        深入了解市场趋势和消费者需求，收集各类商品信息，建立初步选品池。
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- 步骤2 -->
+                    <div class="md:grid md:grid-cols-2 md:gap-8 md:items-center">
+                        <div class="md:order-2 mb-6 md:mb-0 md:pl-12">
+                            <h3 class="text-xl font-bold mb-2">初选评估</h3>
+                            <p class="text-gray-600">
+                                根据品质、价格、口碑等多维度指标进行初步筛选，缩小选品范围。
+                            </p>
+                        </div>
+                        <div class="md:order-1 relative">
+                            <div class="hidden md:block absolute right-0 top-1/2 w-12 h-12 bg-primary text-white rounded-full flex items-center justify-center transform translate-x-1/2 -translate-y-1/2 z-10">
+                                <span class="font-bold">2</span>
+                            </div>
+                            <div class="md:mr-12 bg-secondary rounded-xl p-6 shadow-sm">
+                                <img src="https://picsum.photos/id/48/600/400" alt="初选评估" class="w-full h-48 object-cover rounded-lg mb-4">
+                                <div class="md:hidden">
+                                    <h3 class="text-xl font-bold mb-2">初选评估</h3>
+                                    <p class="text-gray-600">
+                                        根据品质、价格、口碑等多维度指标进行初步筛选，缩小选品范围。
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- 步骤3 -->
+                    <div class="md:grid md:grid-cols-2 md:gap-8 md:items-center">
+                        <div class="md:text-right mb-6 md:mb-0 md:pr-12">
+                            <h3 class="text-xl font-bold mb-2">实地考察</h3>
+                            <p class="text-gray-600">
+                                对入选商品进行实地考察和样品测试，确保产品质量符合我们的标准。
+                            </p>
+                        </div>
+                        <div class="relative">
+                            <div class="hidden md:block absolute left-0 top-1/2 w-12 h-12 bg-primary text-white rounded-full flex items-center justify-center transform -translate-x-1/2 -translate-y-1/2 z-10">
+                                <span class="font-bold">3</span>
+                            </div>
+                            <div class="md:ml-12 bg-secondary rounded-xl p-6 shadow-sm">
+                                <img src="https://picsum.photos/id/119/600/400" alt="实地考察" class="w-full h-48 object-cover rounded-lg mb-4">
+                                <div class="md:hidden">
+                                    <h3 class="text-xl font-bold mb-2">实地考察</h3>
+                                    <p class="text-gray-600">
+                                        对入选商品进行实地考察和样品测试，确保产品质量符合我们的标准。
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- 步骤4 -->
+                    <div class="md:grid md:grid-cols-2 md:gap-8 md:items-center">
+                        <div class="md:order-2 mb-6 md:mb-0 md:pl-12">
+                            <h3 class="text-xl font-bold mb-2">最终推荐</h3>
+                            <p class="text-gray-600">
+                                综合各项评估结果，确定最终推荐商品，并提供详细的选品报告和购买建议。
+                            </p>
+                        </div>
+                        <div class="md:order-1 relative">
+                            <div class="hidden md:block absolute right-0 top-1/2 w-12 h-12 bg-primary text-white rounded-full flex items-center justify-center transform translate-x-1/2 -translate-y-1/2 z-10">
+                                <span class="font-bold">4</span>
+                            </div>
+                            <div class="md:mr-12 bg-secondary rounded-xl p-6 shadow-sm">
+                                <img src="https://picsum.photos/id/24/600/400" alt="最终推荐" class="w-full h-48 object-cover rounded-lg mb-4">
+                                <div class="md:hidden">
+                                    <h3 class="text-xl font-bold mb-2">最终推荐</h3>
+                                    <p class="text-gray-600">
+                                        综合各项评估结果，确定最终推荐商品，并提供详细的选品报告和购买建议。
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 我们的优势 -->
+    <section id="advantages" class="py-20 bg-secondary">
+        <div class="container mx-auto px-4">
+            <div class="text-center max-w-3xl mx-auto mb-16">
+                <h2 class="text-[clamp(1.8rem,3vw,2.5rem)] font-bold mb-4">我们的优势</h2>
+                <p class="text-gray-600 text-lg">楠沐优选凭借专业的团队和严格的标准，为您提供最可靠的选品服务</p>
+            </div>
+            
+            <div class="grid md:grid-cols-2 gap-8">
+                <div class="bg-white rounded-xl p-8 shadow-md hover:shadow-lg transition-custom">
+                    <div class="flex items-start space-x-4">
+                        <div class="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center flex-shrink-0">
+                            <i class="fa fa-check-circle text-primary text-xl"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-bold mb-2">严格的品质把控</h3>
+                            <p class="text-gray-600">
+                                每一件推荐的商品都经过多轮筛选和测试，确保品质达标，让您买得放心，用得安心。
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="bg-white rounded-xl p-8 shadow-md hover:shadow-lg transition-custom">
+                    <div class="flex items-start space-x-4">
+                        <div class="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center flex-shrink-0">
+                            <i class="fa fa-money text-primary text-xl"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-bold mb-2">高性价比保证</h3>
+                            <p class="text-gray-600">
+                                我们与众多供应商建立直接合作关系，在保证品质的同时，为您争取最优惠的价格。
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="bg-white rounded-xl p-8 shadow-md hover:shadow-lg transition-custom">
+                    <div class="flex items-start space-x-4">
+                        <div class="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center flex-shrink-0">
+                            <i class="fa fa-lightbulb-o text-primary text-xl"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-bold mb-2">专业的选品团队</h3>
+                            <p class="text-gray-600">
+                                我们的团队拥有丰富的行业经验和专业知识，能够准确把握市场趋势和产品优劣。
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="bg-white rounded-xl p-8 shadow-md hover:shadow-lg transition-custom">
+                    <div class="flex items-start space-x-4">
+                        <div class="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center flex-shrink-0">
+                            <i class="fa fa-heart text-primary text-xl"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-bold mb-2">贴心的客户服务</h3>
+                            <p class="text-gray-600">
+                                提供全程一对一服务，及时解答您的疑问，根据您的反馈不断优化我们的选品方案。
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 联系我们 -->
+    <section id="contact" class="py-20">
+        <div class="container mx-auto px-4">
+            <div class="grid md:grid-cols-2 gap-12 items-center">
+                <div>
+                    <h2 class="text-[clamp(1.8rem,3vw,2.5rem)] font-bold mb-4">联系我们</h2>
+                    <p class="text-gray-600 text-lg mb-8">
+                        无论您有任何疑问或需求，都可以通过以下方式联系我们，我们将尽快为您提供专业的服务
+                    </p>
+                    
+                    <div class="space-y-6">
+                        <div class="flex items-start space-x-4">
+                            <div class="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center flex-shrink-0">
+                                <i class="fa fa-phone text-primary text-xl"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-lg font-bold mb-1">电话咨询</h3>
+                                <p class="text-gray-600">400-123-4567</p>
+                                <p class="text-gray-500 text-sm">周一至周日 9:00-18:00</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-start space-x-4">
+                            <div class="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center flex-shrink-0">
+                                <i class="fa fa-envelope text-primary text-xl"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-lg font-bold mb-1">邮箱联系</h3>
+                                <p class="text-gray-600">contact@nanmuyouxuan.com</p>
+                                <p class="text-gray-500 text-sm">我们将在24小时内回复您</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-start space-x-4">
+                            <div class="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center flex-shrink-0">
+                                <i class="fa fa-weixin text-primary text-xl"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-lg font-bold mb-1">微信咨询</h3>
+                                <p class="text-gray-600">楠沐优选服务号</p>
+                                <p class="text-gray-500 text-sm">扫码关注，获取更多资讯</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-8 flex space-x-4">
+                        <a href="#" class="w-10 h-10 bg-primary/10 hover:bg-primary/20 text-primary rounded-full flex items-center justify-center transition-custom">
+                            <i class="fa fa-weibo"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 bg-primary/10 hover:bg-primary/20 text-primary rounded-full flex items-center justify-center transition-custom">
+                            <i class="fa fa-weixin"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 bg-primary/10 hover:bg-primary/20 text-primary rounded-full flex items-center justify-center transition-custom">
+                            <i class="fa fa-instagram"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="bg-white rounded-xl p-8 shadow-lg">
+                    <h3 class="text-xl font-bold mb-6">发送咨询</h3>
+                    <form>
+                        <div class="mb-4">
+                            <label for="name" class="block text-gray-700 mb-2">您的姓名</label>
+                            <input type="text" id="name" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-custom" placeholder="请输入您的姓名">
+                        </div>
+                        
+                        <div class="mb-4">
+                            <label for="phone" class="block text-gray-700 mb-2">联系电话</label>
+                            <input type="tel" id="phone" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-custom" placeholder="请输入您的联系电话">
+                        </div>
+                        
+                        <div class="mb-4">
+                            <label for="email" class="block text-gray-700 mb-2">电子邮箱</label>
+                            <input type="email" id="email" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-custom" placeholder="请输入您的电子邮箱">
+                        </div>
+                        
+                        <div class="mb-6">
+                            <label for="message" class="block text-gray-700 mb-2">咨询内容</label>
+                            <textarea id="message" rows="4" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-custom" placeholder="请输入您的咨询内容"></textarea>
+                        </div>
+                        
+                        <button type="submit" class="w-full bg-primary hover:bg-primary/90 text-white py-3 rounded-lg font-medium transition-custom shadow-md hover:shadow-lg">
+                            提交咨询
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 页脚 -->
+    <footer class="bg-dark text-white py-12">
+        <div class="container mx-auto px-4">
+            <div class="grid md:grid-cols-4 gap-8 mb-8">
+                <div>
+                    <div class="flex items-center space-x-2 mb-4">
+                        <span class="text-primary text-2xl"><i class="fa fa-diamond"></i></span>
+                        <span class="text-xl font-bold">楠沐优选</span>
+                    </div>
+                    <p class="text-gray-400 mb-4">
+                        专业的选品服务平台，为您精选高品质、高性价比的各类商品。
+                    </p>
+                </div>
+                
+                <div>
+                    <h3 class="text-lg font-bold mb-4">快速链接</h3>
+                    <ul class="space-y-2">
+                        <li><a href="#home" class="text-gray-400 hover:text-white transition-custom">首页</a></li>
+                        <li><a href="#services" class="text-gray-400 hover:text-white transition-custom">服务介绍</a></li>
+                        <li><a href="#process" class="text-gray-400 hover:text-white transition-custom">选品流程</a></li>
+                        <li><a href="#advantages" class="text-gray-400 hover:text-white transition-custom">我们的优势</a></li>
+                        <li><a href="#contact" class="text-gray-400 hover:text-white transition-custom">联系我们</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h3 class="text-lg font-bold mb-4">服务项目</h3>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-custom">专业选品</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-custom">定制选品方案</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-custom">商品评估</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-custom">市场分析</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h3 class="text-lg font-bold mb-4">联系信息</h3>
+                    <ul class="space-y-2">
+                        <li class="flex items-center space-x-2 text-gray-400">
+                            <i class="fa fa-phone"></i>
+                            <span>400-123-4567</span>
+                        </li>
+                        <li class="flex items-center space-x-2 text-gray-400">
+                            <i class="fa fa-envelope"></i>
+                            <span>contact@nanmuyouxuan.com</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-800 pt-8 text-center text-gray-500 text-sm">
+                <p>© 2023 楠沐优选 版权所有</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // 导航栏滚动效果
+        window.addEventListener('scroll', function() {
+            const navbar = document.getElementById('navbar');
+            if (window.scrollY > 50) {
+                navbar.classList.add('py-2', 'shadow-md');
+                navbar.classList.remove('py-4', 'shadow-sm');
+            } else {
+                navbar.classList.add('py-4', 'shadow-sm');
+                navbar.classList.remove('py-2', 'shadow-md');
+            }
+        });
+        
+        // 移动端菜单切换
+        document.getElementById('menu-toggle').addEventListener('click', function() {
+            const mobileMenu = document.getElementById('mobile-menu');
+            mobileMenu.classList.toggle('hidden');
+        });
+        
+        // 平滑滚动
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                
+                const targetId = this.getAttribute('href');
+                const targetElement = document.querySelector(targetId);
+                
+                if (targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
+                    
+                    // 关闭移动端菜单
+                    document.getElementById('mobile-menu').classList.add('hidden');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
+    
